@@ -38,3 +38,10 @@ A frozen object mapping Morse code sequences back to characters.
 ## Edge cases
 
 The library treats any run of three or more spaces as a word separator during decoding. This means a single trailing space is ignored, but three spaces produce an empty word boundary. If you need strict spacing, normalise your input before calling `decode`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
